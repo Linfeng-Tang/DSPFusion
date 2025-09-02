@@ -1,0 +1,219 @@
+# general settings
+name: DSPF_S2
+model_type: DSPF_S2
+scale: 1
+num_gpu: 1  # set num_gpu: 0 for cpu modemode
+gpu_ids: [0]
+manual_seed: 100
+find_unused_parameters: True
+
+# dataset and data loader settings
+datasets:
+  test_vi_Blur:  # the 1st test dataset
+    name: vi_Blur
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Blur
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+  test_vi_OE:  # the 1st test dataset
+    name: vi_OE
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_OE
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+  
+  test_vi_Rain:  # the 1st test dataset
+    name: vi_Rain
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Rain
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+  test_vi_RN:  # the 1st test dataset
+    name: vi_RN
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_RN
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+  test_ir_LC:  # the 1st test dataset
+    name: ir_LC
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_LC
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+      
+
+  test_ir_RN:  # the 1st test dataset
+    name: ir_RN
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_RN
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+  test_ir_SN:  # the 1st test dataset
+    name: ir_SN
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+  test_vi_LL:  # the 1st test dataset
+    name: vi_LL
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+      
+  test_LL_LC:  # the 1st test dataset
+    name: LL_LC
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_LC
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+  test_LL_SN:  # the 1st test dataset
+    name: LL_SN
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+      
+  test_Rain_SN:  # the 1st test dataset
+    name: Rain_SN
+    type: PairedImageFusionDataset
+    save_folder: './Results/DSPF'
+    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
+    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Rain
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: Transformer_DSPF
+  inp_channels: 3
+  out_channels: 3
+  dim: 32
+  num_blocks: [2,2,4,4]
+  num_refinement_blocks: 1
+  heads: [1,1,2,2]    
+  ffn_expansion_factor: 2.66
+  bias: False
+  LayerNorm_type: WithBias
+  dual_pixel_task: False
+  embed_dim: 64
+  type_embed_dim: 32
+  group: 4 # N=4*4
+  with_contra: False
+  with_SFP: False
+
+
+network_dp:
+  type: degradation_encoder_gelu
+  in_chans: 3
+  embed_dim: 32 # same as above
+  block_num: 4
+  group: 4 # same as above
+  stage: 1
+  patch_expansion: 0.5
+  channel_expansion: 4
+
+network_sp:
+  type: semantic_encoder_gelu
+  in_chans: 6
+  embed_dim: 64 # same as above
+  block_num: 6
+  group: 4 # same as above
+  stage: 1
+  patch_expansion: 0.5
+  channel_expansion: 4
+
+network_dm:
+  type: denoising
+  in_channel: 256 # (embed_dim*4)
+  out_channel: 256 # (embed_dim*4)
+  inner_channel: 512
+  block_num: 6
+  group: 4 # same as above
+  patch_expansion: 0.5
+  channel_expansion: 2
+  dp_channel: 128
+
+diffusion_schedule:
+  apply_ldm: True
+  schedule: linear
+  timesteps: 10
+  linear_start: 0.1 # 1e-6
+  linear_end: 0.99 # 1e-2
+
+# path
+path:
+  pretrain_network_g: ckpt\net_g.pth
+  param_key_g: params
+  strict_load_g: true
+
+  pretrain_network_dp: ckpt\net_dp.pth
+  param_key_dp: params
+  strict_load_dp: true
+
+  pretrain_network_sp: ckpt\net_sp.pth
+  param_key_sp: params
+  strict_load_sp: true
+
+  pretrain_network_dm: ckpt\net_dm.pth
+  param_key_dm: params
+  strict_load_dm: true
+
+  resume_state: ~
+    
+    
+# validation settings
+val:
+  save_img: True
+  suffix: ''
+  selfensemble_testing: False
+  pbar: True
+
+  # metrics:
+  #   psnr: # metric name, can be arbitrary
+  #     type: calculate_psnr
+  #     crop_border: 0
+  #     test_y_channel: false
+  #   ssim:
+  #     type: calculate_ssim
+  #     crop_border: 0
+  #     test_y_channel: false
