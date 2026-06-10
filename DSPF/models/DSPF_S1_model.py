@@ -297,7 +297,7 @@ class DSPF_S1(BaseModel):
         # 先将其转换为 numpy 数组
         deg_types_numpy = deg_types.detach().cpu().numpy()  
         # 保存为 .mat 文件
-        save_path = '/data/timer/DSPF_Ablation/Results/deg_types_0831.mat'
+        save_path = osp.join(self.opt['path']['visualization'], 'degradation_embeddings.mat')
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         savemat(save_path, {'deg_types': deg_types_numpy})  
         print('Degradation types are saved in: {}'.format(save_path))

@@ -15,8 +15,8 @@ class BaseModel(nn.Module):
     def __init__(self, opt):
         super().__init__()
         self.opt = opt
-        self.device = torch.device('cuda:{}'.format(opt['gpu_ids'][0]) if opt['num_gpu'] != 0 else 'cpu')
-        # self.device = torch.device('cuda' if opt['num_gpu'] != 0 else 'cpu')
+        # CUDA_VISIBLE_DEVICES remaps physical GPUs to local indices.
+        self.device = torch.device('cuda' if opt['num_gpu'] != 0 else 'cpu')
 
         print('Using device: {} for {}'.format(self.device, 'training' if opt['is_train'] else 'testing'))
         self.is_train = opt['is_train']

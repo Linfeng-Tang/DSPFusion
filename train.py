@@ -184,9 +184,9 @@ def train_pipeline(root_path):
         while train_data is not None:
             data_timer.record()
 
+            if current_iter >= total_iters:
+                break
             current_iter += 1
-            if current_iter > total_iters:
-                break 
             # update learning rate
             model.update_learning_rate(current_iter, warmup_iter=opt['train'].get('warmup_iter', -1))
     
@@ -260,14 +260,15 @@ def train_pipeline(root_path):
                 log_vars.update(model.get_current_log())
                 msg_logger(log_vars)
                 ## 在这里尝试自己写 把图片写入tensorboard的代码
-                if hasattr(model, 'out_ir') and hasattr(model, 'out_vi'):
+                if tb_logger is not None and hasattr(model, 'out_ir') and hasattr(model, 'out_vi'):
                     tb_img = [lq_ir[0, ::].detach().float().cpu(), lq_vi[0, ::].detach().float().cpu(), gt_ir[0, ::].detach().float().cpu(), gt_vi[0, ::].detach().float().cpu(), model.out_ir[0, ::].detach().float().cpu(), model.out_vi[0, ::].detach().float().cpu(),model.output[0, ::].detach().float().cpu()]
                     tb_img = make_grid(tb_img, nrow=7, padding=2)
-                else:
+                elif tb_logger is not None:
                     tb_img = [lq_ir[0, ::].detach().float().cpu(), lq_vi[0, ::].detach().float().cpu(), gt_ir[0, ::].detach().float().cpu(), gt_vi[0, ::].detach().float().cpu(), model.output[0, ::].detach().float().cpu()]
                     tb_img = make_grid(tb_img, nrow=5, padding=2)
-                tb_logger.add_image('images', tb_img, current_iter)
-                if hasattr(model, 'log_img'):
+                if tb_logger is not None:
+                    tb_logger.add_image('images', tb_img, current_iter)
+                if tb_logger is not None and hasattr(model, 'log_img'):
                     tb_contra = [model.log_img['contra_A'][0, ::].repeat(3, 1, 1).detach().float().cpu(), model.log_img['contra_B'][0, ::].repeat(3, 1, 1).detach().float().cpu(), model.log_img['contra_max'][0, ::].repeat(3, 1, 1).detach().float().cpu(), model.log_img['contra_f'][0, ::].repeat(3, 1, 1).detach().float().cpu(),]
                     tb_contra = make_grid(tb_contra, nrow=4, padding=2)
                     tb_logger.add_image('contra', tb_contra, current_iter)
@@ -291,6 +292,8 @@ def train_pipeline(root_path):
             iter_timer.start()
             train_data = prefetcher.next()
         # end of iter
+        if current_iter >= total_iters:
+            break
 
     # end of epoch
 

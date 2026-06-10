@@ -15,8 +15,6 @@ import numpy as np
 from DSPF.utils.beta_schedule import make_beta_schedule, default
 from ldm.cddpm import DDPM
 from time import time
-from thop import profile, clever_format
-import statistics
 
 
 @MODEL_REGISTRY.register()
@@ -50,7 +48,7 @@ class DSPF_S2(BaseModel):
         if load_path is not None:
             load_path = os.path.abspath(load_path.replace('\\', '/'))
             param_key = self.opt['path'].get('param_key_dp', 'params')
-            self.load_network(self.net_dp, load_path, self.opt['path'].get('strict_load_d', True), param_key)
+            self.load_network(self.net_dp, load_path, self.opt['path'].get('strict_load_dp', True), param_key)
 
         load_path = self.opt['path'].get('pretrain_network_g', None)
         if load_path is not None:
@@ -62,7 +60,7 @@ class DSPF_S2(BaseModel):
         if load_path is not None:
             load_path = os.path.abspath(load_path.replace('\\', '/'))
             param_key = self.opt['path'].get('param_key_dm', 'params')
-            self.load_network(self.net_dm, load_path, self.opt['path'].get('strict_load_le_dm', True), param_key)
+            self.load_network(self.net_dm, load_path, self.opt['path'].get('strict_load_dm', True), param_key)
 
         
         # diffusion
@@ -389,14 +387,6 @@ class DSPF_S2(BaseModel):
                     end_time = time()
                     if hasattr(self, 'time_list'):
                         self.time_list.append(end_time - start_time)
-                    # if idx == 0:
-                        # flops_dp, params_dp = profile(self.net_dp, inputs=(img_ir, ))
-                        # flops_sp, params_sp = profile(self.net_sp, inputs=(lq, ))
-                        # flops_dm, params_dm = profile(self.diffusion, inputs=(self.lq_ir, self.lq_vi, prior_condition, ))
-                        # flops_g, params_g = profile(self.net_g, inputs=(img_ir, img_vi, deg_prior_ir, deg_prior_vi, semantic_prior, ))
-                        # flops = flops_dp + flops_sp + flops_dm + flops_g
-                        # params = params_dp + params_sp + params_dm + params_g                        
-                        # print("Params: {:.3f} M | Flops : {:.3f} G| times : {:.3f}s ".format(params / 1e6, flops / 1e9, end_time - start_time))
                     self.output = self.results['fusion']
                     self.out_ir = self.results['ir']
                     self.out_vi = self.results['vi']
@@ -547,7 +537,6 @@ class DSPF_S2(BaseModel):
                 self._update_best_metric_result(dataset_name, metric, self.metric_results[metric], current_iter)
 
             self._log_validation_metric_values(current_iter, dataset_name, tb_logger)
-        # print('The average running time for testing {} images in {} is {:.4f}s'.format(idx + 1, dataset_name, statistics.mean(self.time_list[2:])))
         print("Fusion results are saved to {}".format(save_folder))
 
 

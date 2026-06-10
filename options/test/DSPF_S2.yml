@@ -2,7 +2,7 @@
 name: DSPF_S2
 model_type: DSPF_S2
 scale: 1
-num_gpu: 1  # set num_gpu: 0 for cpu modemode
+num_gpu: 1  # set num_gpu: 0 for CPU mode
 gpu_ids: [0]
 manual_seed: 100
 find_unused_parameters: True
@@ -13,8 +13,8 @@ datasets:
     name: vi_Blur
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Blur
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_Blur
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -24,8 +24,8 @@ datasets:
     name: vi_OE
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_OE
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_OE
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -34,8 +34,8 @@ datasets:
     name: vi_Rain
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Rain
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_Rain
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -44,8 +44,8 @@ datasets:
     name: vi_RN
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_RN
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_RN
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -55,8 +55,8 @@ datasets:
     name: ir_LC
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_LC
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_LC
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -66,8 +66,8 @@ datasets:
     name: ir_RN
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_RN
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_RN
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -76,8 +76,8 @@ datasets:
     name: ir_SN
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_SN
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -86,8 +86,8 @@ datasets:
     name: vi_LL
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_LL
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -96,8 +96,8 @@ datasets:
     name: LL_LC
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_LC
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_LC
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_LL
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -106,8 +106,8 @@ datasets:
     name: LL_SN
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_LL
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_SN
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_LL
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -116,8 +116,8 @@ datasets:
     name: Rain_SN
     type: PairedImageFusionDataset
     save_folder: './Results/DSPF'
-    dataroot_lq_ir: datasets\Hybrid_Datasets\test\ir_SN
-    dataroot_lq_vi: datasets\Hybrid_Datasets\test\vi_Rain
+    dataroot_lq_ir: datasets/Hybrid_Datasets/test/ir_SN
+    dataroot_lq_vi: datasets/Hybrid_Datasets/test/vi_Rain
     filename_tmpl: '{}'
     io_backend:
       type: disk
@@ -182,19 +182,19 @@ diffusion_schedule:
 
 # path
 path:
-  pretrain_network_g: ckpt\net_g.pth
+  pretrain_network_g: ckpt/net_g.pth
   param_key_g: params
   strict_load_g: true
 
-  pretrain_network_dp: ckpt\net_dp.pth
+  pretrain_network_dp: ckpt/net_dp.pth
   param_key_dp: params
   strict_load_dp: true
 
-  pretrain_network_sp: ckpt\net_sp.pth
+  pretrain_network_sp: ckpt/net_sp.pth
   param_key_sp: params
   strict_load_sp: true
 
-  pretrain_network_dm: ckpt\net_dm.pth
+  pretrain_network_dm: ckpt/net_dm.pth
   param_key_dm: params
   strict_load_dm: true
 

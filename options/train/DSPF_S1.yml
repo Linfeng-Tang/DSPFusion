@@ -103,11 +103,11 @@ path:
   strict_load_g: true
 
   pretrain_network_dp: ~
-  param_key_g: params
-  strict_load_le: true
+  param_key_dp: params
+  strict_load_dp: true
 
   pretrain_network_sp: ~
-  param_key_g: params
+  param_key_sp: params
   strict_load_sp: true
 
   resume_state: ~

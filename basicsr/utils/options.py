@@ -98,7 +98,7 @@ def _postprocess_yml_value(value):
 
 def parse_options(root_path, is_train=True):
     parser = argparse.ArgumentParser()
-    parser.add_argument('-opt', type=str, default='./options/test/DSPF_S1.yml', help='Path to option YAML file.')
+    parser.add_argument('-opt', type=str, required=True, help='Path to option YAML file.')
     parser.add_argument('--launcher', choices=['none', 'pytorch', 'slurm'], default='none', help='job launcher')
     parser.add_argument('--auto_resume', action='store_true')
     parser.add_argument('--debug', action='store_true')
