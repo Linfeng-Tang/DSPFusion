@@ -44,9 +44,11 @@ Key properties:
 
 ### Quantitative Comparison
 
-The best and second-best values are highlighted in red and purple, respectively.
+Quantitative comparison with state-of-the-art image fusion methods under
+different degraded scenarios with pre-enhancement. The best and second-best
+values are highlighted in red and purple, respectively.
 
-![Quantitative comparison on MSRS, LLVIP, RoadScene, and TNO](assets/quantitative_results.png)
+![Quantitative comparison under different degraded scenarios](assets/quantitative_results.png)
 
 ### Qualitative Comparison
 
