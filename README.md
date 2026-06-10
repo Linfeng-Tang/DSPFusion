@@ -1,4 +1,10 @@
-# This is official Pytorch implementation of "DSPFusion: Degradation and Semantic Prior Dual-guided Framework for Image Fusion"
+# DSPFusion: Image Fusion via Degradation and Semantic Dual-Prior Guidance
+
+Official PyTorch implementation of **DSPFusion**, accepted as a regular paper by **IEEE Transactions on Image Processing (IEEE TIP)** on June 2, 2026.
+
+**Authors:** Linfeng Tang, Chunyu Li, Yeda Wang, Guoqing Wang, Yixuan Yuan, and Jiayi Ma
+
+[[IEEE Xplore / DOI](https://doi.org/10.1109/TIP.2026.3700938)] [[arXiv](https://arxiv.org/abs/2503.23355)]
 
 ## Fast Testing
 
@@ -63,3 +69,15 @@
    ```
    python train.py -opt=./options/train/DSPF_S1.yml
    ```
+
+## Citation
+
+```bibtex
+@article{Tang2026DSPFusion,
+  title={DSPFusion: Image Fusion via Degradation and Semantic Dual-Prior Guidance},
+  author={Tang, Linfeng and Li, Chunyu and Wang, Yeda and Wang, Guoqing and Yuan, Yixuan and Ma, Jiayi},
+  journal={IEEE Transactions on Image Processing},
+  year={2026},
+  doi={10.1109/TIP.2026.3700938}
+}
+```
